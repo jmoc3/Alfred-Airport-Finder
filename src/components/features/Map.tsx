@@ -5,6 +5,8 @@ import { FC } from "react";
 import type { LatLngExpression } from "leaflet";
 import L from "leaflet";
 
+// Leaflet pierde sus iconos por defecto cuando se usa con webpack/Next.js
+// Esto los restaura manualmente desde el CDN
 const DefaultIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -12,6 +14,7 @@ const DefaultIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
+// Aplica el icono por defecto a todos los marcadores
 L.Marker.prototype.options.icon = DefaultIcon;
 
 interface AirportMapProps {

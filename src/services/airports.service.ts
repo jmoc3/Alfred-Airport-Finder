@@ -2,9 +2,10 @@ import { AirportResponse } from '@/src/types/airport.types';
 
 const API_BASE_URL = process.env.AVIATION_API_BASE_URL;
 
-// Caché en memoria para evitar llamadas repetidas durante la sesión del servidor
+// Caché en memoria del servidor para no repetir llamadas a la API externa
+// Cada instancia del servidor tiene su propia caché que dura 1 hora
 const memoryCache = new Map<string, { data: AirportResponse; timestamp: number }>();
-const CACHE_TTL = 3600000; // 1 hora en milisegundos
+const CACHE_TTL = 3600000;
 
 export class AirportsService {
   private static getApiKey(): string {
@@ -68,7 +69,7 @@ export class AirportsService {
       timestamp: Date.now()
     });
     
-    // Limpiar caché antigua si hay muchas entradas
+    // Si hay más de 50 búsquedas guardadas, elimina la más antigua para no llenar la RAM
     if (memoryCache.size > 50) {
       const oldestKey = Array.from(memoryCache.keys())[0];
       memoryCache.delete(oldestKey);

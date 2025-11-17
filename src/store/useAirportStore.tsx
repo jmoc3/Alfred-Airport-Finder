@@ -71,12 +71,15 @@ const INITIAL_STATE: State = {
   searchHistory: []
 }
 
+// Corta el array de aeropuertos según la página actual
+// Ej: página 2 con límite 6 -> muestra del índice 6 al 11
 const paginateAirports = (airports: Airport[], page: number, limit: number): Airport[] => {
   const startIndex = (page - 1) * limit
   const endIndex = startIndex + limit
   return airports.slice(startIndex, endIndex)
 }
 
+// Filtra aeropuertos por código IATA o nombre
 const filterAirports = (airports: Airport[], query: string): Airport[] => {
   if (!query.trim()) return airports
   
@@ -105,6 +108,7 @@ export const useAirportStore = create<State & Actions>()(
         const cacheKey = CacheService.generateKey('all', 0);
         const cachedData = CacheService.get<AirportResponse>(cacheKey);
 
+        // Si ya tenemos los aeropuertos en localStorage, no los volvemos a pedir
         if (cachedData) {
           const totalPages = Math.ceil(cachedData.data.length / limit)
           set({
@@ -190,10 +194,12 @@ export const useAirportStore = create<State & Actions>()(
       addToSearchHistory: (airport: Airport) => {
         const { searchHistory } = get()
         
+        // Elimina el aeropuerto si ya está en el historial (para moverlo al inicio)
         const filtered = searchHistory.filter(
           item => item.iataCode !== airport.iata_code
         )
         
+        // Agrega el aeropuerto al inicio y mantiene solo los últimos 5
         const newHistory = [
           {
             iataCode: airport.iata_code,

@@ -4,6 +4,7 @@ import { FC, useEffect, useState, lazy, Suspense } from "react";
 import { useAirportStore, type Airport } from "@/src/store/useAirportStore";
 import { DataCard } from "@/src/components/ui/DataCard";
 
+// Lazy load del mapa para no cargar Leaflet hasta que el usuario vaya a la pestaña de ubicación
 const AirportMap = lazy(() => import('@/src/components/features/Map').then(module => ({ default: module.AirportMap })));
 
 const tabs = [

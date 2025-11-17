@@ -51,6 +51,7 @@ export class CacheService {
   }
 
   static cleanupIfNeeded(): void {
+    // Primero elimina todas las búsquedas que ya expiraron (más de 1 hora)
     const airportKeys = Object.keys(localStorage).filter(key => 
       key.startsWith(CACHE_PREFIX)
     );
@@ -73,6 +74,8 @@ export class CacheService {
       key.startsWith(CACHE_PREFIX)
     );
     
+    // Si aún hay más de 30 búsquedas, elimina las más antiguas
+    // Ordena por timestamp y borra las 10 más viejas
     if (remainingKeys.length >= MAX_CACHE_ENTRIES) {
       remainingKeys
         .sort((a, b) => {

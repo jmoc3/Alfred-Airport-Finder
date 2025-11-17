@@ -84,14 +84,19 @@ export const AirportListClient: FC<AirportListClientProps> = ({
               </button>
 
               <div className="flex gap-2">
-                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                {/* Muestra máximo 5 botones de página, centrados en la página actual */}
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                   let pageNum;
+                  // Si hay 5 páginas o menos, muestra todas
                   if (totalPages <= 5) {
                     pageNum = i + 1;
+                  // Si estamos en las primeras 3 páginas, muestra 1-5
                   } else if (currentPage <= 3) {
                     pageNum = i + 1;
+                  // Si estamos en las últimas 3 páginas, muestra las últimas 5
                   } else if (currentPage >= totalPages - 2) {
                     pageNum = totalPages - 4 + i;
+                  // Si no, centra la página actual
                   } else {
                     pageNum = currentPage - 2 + i;
                   }
