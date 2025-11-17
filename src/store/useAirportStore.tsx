@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { Airport, AirportResponse } from '@/src/types/airport.types'
-import { CacheService } from '@/src/services/cache.service'
 
 export type { Airport }
 export type { SearchHistoryItem }
@@ -105,23 +104,6 @@ export const useAirportStore = create<State & Actions>()(
 
       fetchAirports: async () => {
         const limit = get().limit
-        const cacheKey = CacheService.generateKey('all', 0);
-        const cachedData = CacheService.get<AirportResponse>(cacheKey);
-
-        // Si ya tenemos los aeropuertos en localStorage, no los volvemos a pedir
-        if (cachedData) {
-          const totalPages = Math.ceil(cachedData.data.length / limit)
-          set({
-            allAirports: cachedData.data,
-            airports: paginateAirports(cachedData.data, 1, limit),
-            currentPage: 1,
-            totalPages,
-            isLoading: false,
-            error: null
-          });
-          return;
-        }
-
         set({ isLoading: true, error: null });
 
         try {
@@ -132,7 +114,6 @@ export const useAirportStore = create<State & Actions>()(
           }
 
           const data: AirportResponse = await response.json();
-          CacheService.set(cacheKey, data);
           const totalPages = Math.ceil(data.data.length / limit)
 
           set({

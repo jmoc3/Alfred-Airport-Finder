@@ -2,7 +2,6 @@ import { AirportResponse } from '@/src/types/airport.types';
 
 const API_BASE_URL = process.env.AVIATION_API_BASE_URL;
 
-// Caché en memoria del servidor para no repetir llamadas a la API externa
 // Cada instancia del servidor tiene su propia caché que dura 1 hora
 const memoryCache = new Map<string, { data: AirportResponse; timestamp: number }>();
 const CACHE_TTL = 3600000;

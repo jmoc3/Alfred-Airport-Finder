@@ -3,8 +3,6 @@ import { AirportsService } from '@/src/services/airports.service';
 
 // Revalida el caché cada hora (3600 segundos)
 export const revalidate = 3600;
-// Fuerza a Next.js a cachear esta ruta como estática aunque use parámetros
-export const dynamic = 'force-static';
 
 export async function GET(request: NextRequest) {
   try {
