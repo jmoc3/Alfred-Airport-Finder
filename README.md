@@ -30,7 +30,7 @@ AVIATION_STACK_API_KEY=tu_api_key_aqui
 AVIATION_API_BASE_URL=http://api.aviationstack.com/v1
 APP_URL=http://localhost:3000
 ```
-> Obtén tu API key gratis en <a href="https://aviationstack.com/" target="_blank" rel="noopener noreferrer">AviationStack</a>
+> Obtén tu API key gratis en [AviationStack](https://aviationstack.com/)
 
 4. **Arranca el servidor de desarrollo**
 ```bash
@@ -39,7 +39,7 @@ pnpm dev
 npm run dev
 ```
 
-5. **Abre tu navegador** en <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer">http://localhost:3000</a>
+5. **Abre tu navegador** en [http://localhost:3000](http://localhost:3000)
 
 ¡Y listo! 🎉
 
