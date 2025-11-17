@@ -4,11 +4,22 @@ import { SiteLogo } from "@/src/components/ui/SiteLogo";
 import { InputSearch } from "@/src/components/ui/InputSearch";
 import { SearchButton } from "@/src/components/ui/SearchButton";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
+  const [logoWidth, setLogoWidth] = useState("88.91px");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setLogoWidth(window.innerWidth < 1200 ? "58.91px" : "88.91px");
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleNavigateToSearch = () => {
     setIsNavigating(true);
@@ -27,9 +38,9 @@ export default function Home() {
             </div>
           </div>
         )}
-        <SiteLogo width="88.91px" extraClasses="absolute z-10 top-1/5 animate-fade-in"/>
-        <div className="relative z-10 space-y-10 animate-fade-in-up px-4" style={{ animationDelay: '0.2s', opacity: 0 }}>
-          <div className="w-full space-y-7">
+        <SiteLogo width={logoWidth} extraClasses="absolute z-10 top-1/5 animate-fade-in"/>
+        <div className="relative z-10 space-y-10 w-full animate-fade-in-up px-4" style={{ animationDelay: '0.2s', opacity: 0 }}>
+          <div className="w-full space-y-7 px-12">
             <div className="w-full max-w-[780px] mx-auto">
               <InputSearch onEnterPress={handleNavigateToSearch} />
             </div>

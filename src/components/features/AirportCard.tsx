@@ -44,7 +44,7 @@ export const AirportCard: FC<AirportCardProps> = ({ airport}) => {
           src="/images/cardImage.jpg" 
           alt={airport.airport_name}
           fill
-          className="object-cover -translate-y-4 -translate-x-9 scale-125 group-hover:scale-[1.35] transition-transform duration-500 ease-out"
+          className="object-cover group-hover:scale-[1.35] transition-transform duration-500 ease-out"
         />
         <div className="absolute inset-0 bg-linear-to-r from-[#0e1934e7] to-[#0E1934] dark:from-gray-900/95 dark:to-black/95 opacity-90 group-hover:opacity-80 transition-opacity duration-300"></div>
 
