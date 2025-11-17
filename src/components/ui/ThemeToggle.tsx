@@ -10,6 +10,7 @@ export const ThemeToggle = () => {
       onClick={toggleTheme}
       className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white/10 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-600/50 hover:bg-white/20 dark:hover:bg-slate-700/80 transition-all duration-300 shadow-lg"
       aria-label="Toggle theme"
+      suppressHydrationWarning
     >
       {theme === 'light' ? (
         <svg
