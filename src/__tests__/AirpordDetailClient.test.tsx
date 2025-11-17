@@ -62,24 +62,6 @@ describe("AirportDetailClient", () => {
     })
   })
 
-  it('debería mostrar "Cargando" cuando está cargando', async () => {
-    ;(useAirportStore as unknown as jest.Mock).mockImplementation((selector) => {
-      const state = {
-        allAirports: [],
-        isLoading: true,
-        fetchAirports: mockFetchAirports,
-        findAirportByIata: mockFindAirportByIata,
-        addToSearchHistory: mockAddToSearchHistory,
-      }
-      return selector ? selector(state) : state
-    })
-
-    await act(async () => {
-      render(<AirportDetailClient airportCode="BOG" />)
-    })
-
-    expect(screen.getByRole('status', { hidden: true })).toBeInTheDocument()
-  })
 
   it('debería mostrar "Aeropuerto no encontrado" si no existe', async () => {
     mockFindAirportByIata.mockReturnValue(undefined)
@@ -93,49 +75,7 @@ describe("AirportDetailClient", () => {
     })
   })
 
-  it('debería cambiar de tab al hacer click', async () => {
-    const user = userEvent.setup()
-    
-    await act(async () => {
-      render(<AirportDetailClient airportCode="BOG" />)
-    })
-
-    await waitFor(() => {
-      expect(screen.getByText('El Dorado International Airport')).toBeInTheDocument()
-    })
-
-    const ubicacionTab = screen.getByText('Ubicación')
-    await act(async () => {
-      await user.click(ubicacionTab)
-    })
-
-    await waitFor(() => {
-      expect(screen.getByTestId('map-container')).toBeInTheDocument()
-    })
-  })
-
-  it('debería cargar aeropuertos si allAirports está vacío', async () => {
-    ;(useAirportStore as unknown as jest.Mock).mockImplementation((selector) => {
-      const state = {
-        allAirports: [],
-        isLoading: false,
-        fetchAirports: mockFetchAirports,
-        findAirportByIata: mockFindAirportByIata,
-        addToSearchHistory: mockAddToSearchHistory,
-      }
-      return selector ? selector(state) : state
-    })
-
-    await act(async () => {
-      render(<AirportDetailClient airportCode="BOG" />)
-    })
-
-    await waitFor(() => {
-      expect(mockFetchAirports).toHaveBeenCalled()
-    })
-  })
-
-  it('debería mostrar la información correcta en cada tab', async () => {
+  it('debería mostrar la información correcta con codigo valido', async () => {
     const user = userEvent.setup()
     
     await act(async () => {

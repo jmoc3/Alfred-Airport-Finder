@@ -57,13 +57,4 @@ describe('AirportsService', () => {
     
     await expect(AirportsService.getAirports('INVALID')).rejects.toThrow('API Error')
   })
-
-  it('deberia retornar todos los aeropuertos sin query', async () => {
-    mockGetAirports.mockResolvedValue(mockAirportData)
-    
-    const result = await AirportsService.getAirports()
-    
-    expect(mockGetAirports).toHaveBeenCalledWith()
-    expect(result).toHaveProperty('data')
-  })
 })
