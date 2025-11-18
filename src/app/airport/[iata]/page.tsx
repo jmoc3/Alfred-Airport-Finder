@@ -2,7 +2,7 @@ import { AirportDetailClient } from "@/src/components/features/AirportDetailClie
 import { AirportsService } from "@/src/services/airports.service";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   // Pre-genera solo los 50 aeropuertos más visitados para optimizar el build
   const topAirports = [
     "ATL", "LAX", "ORD", "DFW", "DEN", "JFK", "SFO", "SEA",
