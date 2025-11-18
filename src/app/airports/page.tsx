@@ -4,18 +4,10 @@ import { SearchButton } from "@/src/components/ui/SearchButton";
 import { AirportListClient } from "@/src/components/features/AirportListClient";
 import { AirportsService } from "@/src/services/airports.service";
 
-interface SearchParams {
-  query?: string;
-  page?: string;
-}
+export const revalidate = 86400
 
-export default async function AirportsPage({
-  searchParams
-}: {
-  searchParams: Promise<SearchParams>
-}) {
-  const { query } = await searchParams;
-  const initialData = await AirportsService.getAirports(query);
+export default async function AirportsPage({}) {
+  const initialData = await AirportsService.getAirports();
 
   return (
     <div className="px-4 md:px-8 lg:px-20">

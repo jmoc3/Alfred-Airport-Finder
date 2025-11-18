@@ -28,7 +28,7 @@ export const AirportListClient: FC<AirportListClientProps> = ({
         setSearchQuery(currentQuery);
       }
     }
-  }, [initialData, setInitialData, setSearchQuery]);
+  }, []);
 
   if (error) {
     return (

@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-full">
+      <body className="w-full" suppressHydrationWarning>
         <ThemeToggle />
         <BackgroundLayout>
         {children}

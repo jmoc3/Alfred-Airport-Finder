@@ -18,41 +18,20 @@ type TabId = typeof tabs[number]['id'];
 
 interface AirportDetailClientProps {
   airportCode: string;
+  initialData?: Airport;
 }
 
-export const AirportDetailClient: FC<AirportDetailClientProps> = ({ airportCode }) => {
-  const [airport, setAirport] = useState<Airport | null>(null);
+export const AirportDetailClient: FC<AirportDetailClientProps> = ({ initialData }) => {
+  const [airport, _] = useState<Airport | null>(initialData || null);
   const [activeTab, setActiveTab] = useState<TabId>('general');
-  const { fetchAirports, findAirportByIata, addToSearchHistory } = useAirportStore();
-  const isLoading = useAirportStore((state) => state.isLoading);
-  const allAirports = useAirportStore((state) => state.allAirports);
+  const { addToSearchHistory } = useAirportStore();
 
   useEffect(() => {
-    const loadAirport = async () => {
-      if (allAirports.length === 0) {
-        await fetchAirports();
-      }
-      
-      const foundAirport = findAirportByIata(airportCode);
-      if (foundAirport) {
-        setAirport(foundAirport);
-        addToSearchHistory(foundAirport);
-      } else {
-        setAirport(null);
-      }
-    };
+    if (airport) {
+      addToSearchHistory(airport);
+    }
+  }, []);
 
-    loadAirport();
-  }, [airportCode, fetchAirports, findAirportByIata, addToSearchHistory, allAirports.length]);
-
-  if (isLoading) {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-screen gap-4 animate-fade-in">
-        <div role="status" className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-        <p className="text-white animate-pulse">Cargando información del aeropuerto...</p>
-      </div>
-    );
-  }
 
   if (!airport) {
     return (

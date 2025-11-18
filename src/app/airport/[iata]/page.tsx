@@ -1,22 +1,20 @@
 import { AirportDetailClient } from "@/src/components/features/AirportDetailClient";
+import { AirportsService } from "@/src/services/airports.service";
+import { notFound } from "next/navigation";
 
-export function generateStaticParams() {
-  // Lista de los 50 aeropuertos mas visitados
-  return [
-    { iata: "ATL" }, { iata: "LAX" }, { iata: "ORD" }, { iata: "DFW" },
-    { iata: "DEN" }, { iata: "JFK" }, { iata: "SFO" }, { iata: "SEA" },
-    { iata: "MIA" }, { iata: "BOS" }, { iata: "LAS" }, { iata: "PHX" },
-    { iata: "IAH" }, { iata: "CLT" }, { iata: "MCO" }, { iata: "LHR" },
-    { iata: "LGW" }, { iata: "CDG" }, { iata: "ORY" }, { iata: "FRA" },
-    { iata: "MUC" }, { iata: "AMS" }, { iata: "MAD" }, { iata: "BCN" },
-    { iata: "FCO" }, { iata: "MXP" }, { iata: "IST" }, { iata: "ATH" },
-    { iata: "HND" }, { iata: "NRT" }, { iata: "HKG" }, { iata: "SIN" },
-    { iata: "ICN" }, { iata: "BKK" }, { iata: "DXB" }, { iata: "AUH" },
-    { iata: "DEL" }, { iata: "BOM" }, { iata: "KUL" }, { iata: "CGK" },
-    { iata: "MEX" }, { iata: "BOG" }, { iata: "SCL" }, { iata: "EZE" },
-    { iata: "GRU" }, { iata: "LIM" }, { iata: "SYD" }, { iata: "MEL" },
-    { iata: "JNB" }, { iata: "CPT" }
+export async function generateStaticParams() {
+  // Pre-genera solo los 50 aeropuertos más visitados para optimizar el build
+  const topAirports = [
+    "ATL", "LAX", "ORD", "DFW", "DEN", "JFK", "SFO", "SEA",
+    "MIA", "BOS", "LAS", "PHX", "IAH", "CLT", "MCO", "LHR",
+    "LGW", "CDG", "ORY", "FRA", "MUC", "AMS", "MAD", "BCN",
+    "FCO", "MXP", "IST", "ATH", "HND", "NRT", "HKG", "SIN",
+    "ICN", "BKK", "DXB", "AUH", "DEL", "BOM", "KUL", "CGK",
+    "MEX", "BOG", "SCL", "EZE", "GRU", "LIM", "SYD", "MEL",
+    "JNB", "CPT"
   ];
+  
+  return topAirports.map(iata => ({ iata }));
 }
 
 export const revalidate = 3600;
@@ -27,6 +25,11 @@ export default async function AirportDetailPage({
   params: Promise<{ iata: string }>
 }) {
   const { iata } = await params;
+  const airport = await AirportsService.getAirportByIata(iata);
 
-  return <AirportDetailClient airportCode={iata} />;
+  if (!airport) {
+    notFound();
+  }
+
+  return <AirportDetailClient airportCode={iata} initialData={airport} />;
 }
