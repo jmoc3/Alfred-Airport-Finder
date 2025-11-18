@@ -32,6 +32,8 @@ APP_URL=http://localhost:3000
 ```
 > Obtén tu API key gratis en [AviationStack](https://aviationstack.com/)
 
+> ⚠️ **Importante**: Tu cuenta de AviationStack debe tener **al menos 51 peticiones disponibles** para poder ejecutar el build exitosamente. Esto es necesario porque durante el proceso de build se pre-renderizan las páginas de los 50 aeropuertos más populares como parte de la optimización de rendimiento (ISR - Incremental Static Regeneration). Si no tienes suficientes peticiones, el build fallará.
+
 4. **Construye y arranca el proyecto en modo producción**
 ```bash
 pnpm build
