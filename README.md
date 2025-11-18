@@ -32,16 +32,20 @@ APP_URL=http://localhost:3000
 ```
 > Obtén tu API key gratis en [AviationStack](https://aviationstack.com/)
 
-4. **Arranca el servidor de desarrollo**
+4. **Construye y arranca el proyecto en modo producción**
 ```bash
-pnpm dev
-# o
-npm run dev
+pnpm build
+pnpm start
+# o si prefieres npm
+npm run build
+npm start
 ```
 
 5. **Abre tu navegador** en [http://localhost:3000](http://localhost:3000)
 
 ¡Y listo! 🎉
+
+> 💡 **Tip**: Para desarrollo, puedes usar `pnpm dev` (o `npm run dev`), pero para experimentar el verdadero rendimiento con ISR y caché optimizado, se recomienda probar con `build + start`.
 
 ## ✨ Lo que hace especial a este proyecto
 
@@ -105,6 +109,44 @@ npm test
 pnpm build
 pnpm start
 ```
+
+## 📊 Performance
+
+La aplicación está optimizada para ofrecer la mejor experiencia de usuario posible. Según las métricas de Lighthouse:
+
+![Lighthouse Performance Metrics](public/images/lighthouse-metrics.png)
+
+### Métricas principales:
+- **Performance**: 97/100 ⚡
+- **Accessibility**: 98/100 ♿
+- **Best Practices**: 100/100 ✅
+- **SEO**: 100/100 🔍
+
+### Optimizaciones implementadas:
+
+#### 🚀 Caché y Revalidación (ISR)
+- **Caché de páginas estáticas**: Las rutas `/airports` y `/airport/[iata]` se cachean (24h - 1h)
+- **Revalidación automática**: Los datos se actualizan en background sin afectar la experiencia del usuario
+- **Caché de fetch**: Next.js cachea las respuestas de la API externa para reducir llamadas innecesarias
+
+#### ⚡ Optimizaciones de carga
+- **Lazy loading de mapas**: El componente de Leaflet solo se carga cuando el usuario accede a la pestaña de ubicación
+- **Generación estática de páginas populares**: Los 50 aeropuertos más visitados se pre-generan en build time
+- **Debounce en búsqueda**: Evita llamadas excesivas mientras el usuario escribe (500ms de retraso)
+
+#### 🎯 Optimizaciones de estado
+- **Zustand**: Estado global ligero sin re-renders innecesarios
+- **Paginación eficiente**: Solo se renderizan 6 aeropuertos por página
+- **Filtrado local**: Las búsquedas se filtran en memoria para evitar latencia de red
+
+#### 📦 Assets optimizados
+- **Imágenes optimizadas**: Next.js Image component con lazy loading automático
+- **CSS modular**: Tailwind con purge para eliminar CSS no utilizado
+- **Compresión**: Gzip/Brotli habilitado en producción
+
+### Resultado:
+Una aplicación rápida, accesible y optimizada que carga en menos de 2 segundos y ofrece una experiencia fluida incluso con miles de aeropuertos.
+
 ---
 
 Hecho con 😴 y ❤️
